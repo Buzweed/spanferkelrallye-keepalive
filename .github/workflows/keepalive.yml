@@ -1,0 +1,20 @@
+name: Supabase Keepalive
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Insert keepalive row
+        run: |
+          curl -X POST \
+          "https://xatrfibydbpqmqxctfpr.supabase.co/rest/v1/keepalive" \
+          -H "apikey: ${{ secrets.SUPABASE_ANON }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON }}" \
+          -H "Content-Type: application/json" \
+          -d '{}'
