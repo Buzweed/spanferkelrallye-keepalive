@@ -2,7 +2,10 @@ name: Supabase Keepalive
 
 on:
   schedule:
-    - cron: '40 12 * * *'
+    # 12:40 MESZ im Sommer / 11:40 MEZ im Winter
+    - cron: '40 10 * * *'
+
+  # Ermöglicht zusätzlich einen manuellen Start
   workflow_dispatch:
 
 jobs:
@@ -10,11 +13,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Insert keepalive row
+
+      - name: Datenbank - Teams
         run: |
-          curl -X POST \
-          "https://xatrfibydbpqmqxctfpr.supabase.co/rest/v1/keepalive" \
-          -H "apikey: ${{ secrets.SUPABASE_ANON }}" \
-          -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON }}" \
-          -H "Content-Type: application/json" \
-          -d '{}'
+          curl -f \
+            "https://xatrfibydbpqmqxctfpr.supabase.co/rest/v1/teams?select=id&limit=10" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON }}"
+
+      - name: Datenbank - Tasks
+        run: |
+          curl -f \
+            "https://xatrfibydbpqmqxctfpr.supabase.co/rest/v1/tasks?select=id&limit=10" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON }}"
+
+      - name: Datenbank - Schedule
+        run: |
+          curl -f \
+            "https://xatrfibydbpqmqxctfpr.supabase.co/rest/v1/schedule?select=id&limit=10" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON }}"
+
+      - name: Datenbank - Submissions
+        run: |
+          curl -f \
+            "https://xatrfibydbpqmqxctfpr.supabase.co/rest/v1/submissions?select=id&limit=10" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON }}"
