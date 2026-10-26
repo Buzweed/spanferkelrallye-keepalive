@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Verhindert die automatische Deaktivierung
+      # geplanter Workflows nach 60 Tagen Inaktivität
+      - name: Keep scheduled workflow active
+        uses: WaterLemons2k/scheduled-workflow-activity-action@v2
 
       - name: Datenbank - Teams
         run: |
