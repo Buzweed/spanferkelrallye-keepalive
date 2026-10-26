@@ -1,5 +1,7 @@
 name: Supabase Keepalive
-
+permissions:
+  actions: write
+  contents: read
 on:
   schedule:
     # 12:40 MESZ im Sommer / 11:40 MEZ im Winter
